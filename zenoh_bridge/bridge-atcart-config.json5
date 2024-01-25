@@ -1,0 +1,32 @@
+//
+// Configuration for zenoh-bridge-dds running on localhost
+//
+{
+  plugins: {
+    dds: {
+      // allow only necessary topics
+      allow: "/cmd_vel|/jmoab/cart_mode|/jmoab/cart_mode_cmd|/jmoab/relays|/atcart/**",
+      // configure maximum frequency of retransmission over Zenoh
+      max_frequencies: ["/atcart/scan=10", "/atcart/warning=10"],
+
+      // set a scope and configure Zenoh discovery to be minimal (only 2 messages)
+      scope: "atcart",
+      generalise_subs: ["atcart/**"],
+      generalise_pubs: ["atcart/**"],
+
+      // forward_discovery: true,
+    },
+
+    // Activate the REST API
+    rest: {
+      http_port: 8000,
+    },
+  },
+
+  // Connect to a remote Zenoh router
+  // (or to another bridge if it's configured to listen)
+  connect: {
+    endpoints: [ "tcp/192.168.8.157:7447" ]
+
+  },
+}
